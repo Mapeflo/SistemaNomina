@@ -5,7 +5,7 @@ public class EmpleadoPorHoras extends Empleado{
     private double tarifaPorHora;
     private int horasLaboradas;
 
-    public EmpleadoPorHoras(String nombre, String identificacion, int aniosEnEmpresa, double salarioPorHora, int horasLaboradas){
+    public EmpleadoPorHoras(String nombre, String identificacion, int aniosEnEmpresa, double tarifaPorHora, int horasLaboradas){
         super(nombre, identificacion, aniosEnEmpresa);
         this.tarifaPorHora = tarifaPorHora;
         this.horasLaboradas = horasLaboradas;
