@@ -21,7 +21,7 @@ public class EmpleadoPorHoras extends Empleado{
         } else{
             return 0;
         }
-        
+
     }
 
     @Override
@@ -31,7 +31,14 @@ public class EmpleadoPorHoras extends Empleado{
 
     @Override
     public double calcularSalarioBruto() {
-        return 0;
+
+        if(horasLaboradas > 8){
+            double valorHoraExtra = 1.5;
+            return (tarifaPorHora * horasLaboradas) * valorHoraExtra;
+        } else {
+            return tarifaPorHora * horasLaboradas;
+        }
+
     }
 
 
