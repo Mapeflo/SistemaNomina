@@ -26,7 +26,11 @@ public class EmpleadoPorHoras extends Empleado{
 
     @Override
     public double calcularDeducciones() {
-        return 0;
+
+        double seguroSocial = 0.04;
+        double pension = 0.04;
+        return calcularSalarioBruto() * pension - calcularSalarioBruto() * seguroSocial;
+
     }
 
     @Override
