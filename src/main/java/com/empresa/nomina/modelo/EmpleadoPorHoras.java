@@ -14,7 +14,14 @@ public class EmpleadoPorHoras extends Empleado{
 
     @Override
     public double calcularBeneficios() {
-        return 0;
+
+        if(getAniosEnEmpresa() > 1){
+            double porcentajeBeneficio = 0.2;
+            return tarifaPorHora * porcentajeBeneficio;
+        } else{
+            return 0;
+        }
+        
     }
 
     @Override
