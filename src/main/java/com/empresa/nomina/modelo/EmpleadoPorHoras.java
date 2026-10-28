@@ -10,7 +10,7 @@ public class EmpleadoPorHoras extends Empleado{
     private int nivelArl;
     private boolean aceptaFondoAhorro;
 
-    public EmpleadoPorHoras(String nombre, String identificacion, int aniosEnEmpresa, double tarifaPorHora, int horasLaboradas){
+    public EmpleadoPorHoras(String nombre, String identificacion, int aniosEnEmpresa, double tarifaPorHora, int horasLaboradas, int nivelArl, boolean aceptaFondoAhorro){
         super(nombre, identificacion, aniosEnEmpresa);
         this.tarifaPorHora = ValidadorNumeros.validarNegativo(tarifaPorHora);
         this.horasLaboradas = ValidadorNumeros.validarNegativo(horasLaboradas);
