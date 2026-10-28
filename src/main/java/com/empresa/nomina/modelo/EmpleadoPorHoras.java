@@ -1,5 +1,6 @@
 package com.empresa.nomina.modelo;
 
+import com.empresa.nomina.accionesSistema.CalculadoraArl;
 import com.empresa.nomina.accionesSistema.ValidadorNumeros;
 
 public class EmpleadoPorHoras extends Empleado{
@@ -28,7 +29,6 @@ public class EmpleadoPorHoras extends Empleado{
             beneficio += calcularSalarioBruto() * porcentajeBeneficio;
             return beneficio;
         }
-        
         return beneficio;
     }
 
@@ -38,9 +38,13 @@ public class EmpleadoPorHoras extends Empleado{
 
         double seguroSocial = 0.04;
         double pension = 0.04;
-        return calcularSalarioBruto() * pension - calcularSalarioBruto() * seguroSocial;
 
+
+        return calcularSalarioBruto() * pension +
+                calcularSalarioBruto() * seguroSocial +
+                CalculadoraArl.calcularArl(this.nivelArl, calcularSalarioBruto());
     }
+
 
     @Override
     public double calcularSalarioBruto() {
