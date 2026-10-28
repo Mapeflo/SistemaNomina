@@ -1,14 +1,20 @@
 package com.empresa.nomina.modelo;
 
+import com.empresa.nomina.accionesSistema.ValidadorNumeros;
+
 public class EmpleadoPorHoras extends Empleado{
 
     private double tarifaPorHora;
     private int horasLaboradas;
+    private int nivelArl;
+    private boolean aceptaFondoAhorro;
 
     public EmpleadoPorHoras(String nombre, String identificacion, int aniosEnEmpresa, double tarifaPorHora, int horasLaboradas){
         super(nombre, identificacion, aniosEnEmpresa);
-        this.tarifaPorHora = tarifaPorHora;
-        this.horasLaboradas = horasLaboradas;
+        this.tarifaPorHora = ValidadorNumeros.validarNegativo(tarifaPorHora);
+        this.horasLaboradas = ValidadorNumeros.validarNegativo(horasLaboradas);
+        this.nivelArl = ValidadorNumeros.validarFueraRango(nivelArl, 1, 5);
+        this.aceptaFondoAhorro = aceptaFondoAhorro;
     }
 
 
@@ -56,7 +62,43 @@ public class EmpleadoPorHoras extends Empleado{
 
 
 
+    public double getTarifaPorHora() {
+        return tarifaPorHora;
+    }
+
+    public int getHorasLaboradas() {
+        return horasLaboradas;
+    }
+
+    public int getNivelArl() {
+        return nivelArl;
+    }
+
+
+    public boolean isAceptaFondoAhorro() {
+        return aceptaFondoAhorro;
+    }
 
 
 
+
+    public void setNivelArl(int nivelArl) {
+        ValidadorNumeros.validarNegativo(nivelArl);
+        ValidadorNumeros.validarFueraRango(nivelArl,1,5);
+        this.nivelArl = nivelArl;
+    }
+
+    public void setTarifaPorHora(double tarifaPorHora) {
+        ValidadorNumeros.validarNegativo(tarifaPorHora);
+        this.tarifaPorHora = tarifaPorHora;
+    }
+
+    public void setHorasLaboradas(int horasLaboradas) {
+        ValidadorNumeros.validarNegativo(horasLaboradas);
+        this.horasLaboradas = horasLaboradas;
+    }
+
+    public void setAceptaFondoAhorro(boolean aceptaFondoAhorro) {
+        this.aceptaFondoAhorro = aceptaFondoAhorro;
+    }
 }
