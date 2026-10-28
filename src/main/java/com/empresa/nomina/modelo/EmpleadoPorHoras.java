@@ -20,15 +20,18 @@ public class EmpleadoPorHoras extends Empleado{
 
     @Override
     public double calcularBeneficios() {
+        double beneficio = 0;
 
-        if(getAniosEnEmpresa() > 1){
-            double porcentajeBeneficio = 0.2;
-            return tarifaPorHora * porcentajeBeneficio;
-        } else{
-            return 0;
+        // Fondo de ahorro de 2%
+        if (getAniosEnEmpresa() > 1 && aceptaFondoAhorro) {
+            double porcentajeBeneficio = 0.02;
+            beneficio += calcularSalarioBruto() * porcentajeBeneficio;
+            return beneficio;
         }
-
+        
+        return beneficio;
     }
+
 
     @Override
     public double calcularDeducciones() {
