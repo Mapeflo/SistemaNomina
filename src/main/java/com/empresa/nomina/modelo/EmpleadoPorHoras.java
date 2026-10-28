@@ -48,14 +48,21 @@ public class EmpleadoPorHoras extends Empleado{
 
     @Override
     public double calcularSalarioBruto() {
+        double salarioBruto = this.horasLaboradas * this.tarifaPorHora;
+        int horasExtras;
+        int horasNormales = 40;
 
-        if(horasLaboradas > 8){
+
+        //Cuando el trabajador hace horas extras
+        if (horasLaboradas > horasNormales) {
+            horasExtras = horasLaboradas - horasNormales;
+
             double valorHoraExtra = 1.5;
-            return (tarifaPorHora * horasLaboradas) * valorHoraExtra;
-        } else {
-            return tarifaPorHora * horasLaboradas;
+            return tarifaPorHora * horasNormales +
+                    tarifaPorHora * horasExtras * valorHoraExtra;
         }
 
+        return salarioBruto;
     }
 
 
