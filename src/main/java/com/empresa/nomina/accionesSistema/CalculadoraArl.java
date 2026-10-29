@@ -21,7 +21,7 @@ public final class CalculadoraArl {
                     "El nivel de riesgo ARL debe estar entre 1 y 5");
         };
 
-        double arlCalculado = Math.max(valorMensual * FACTOR_IBC, SALARIO_MINIMO);
-        return arlCalculado;
+        double ibc = Math.max(valorMensual * FACTOR_IBC, SALARIO_MINIMO);
+        return ibc * tarifa;
     }
 }
