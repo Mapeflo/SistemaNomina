@@ -14,7 +14,7 @@ class EmpleadoPorHoraTest {
     private static final double DELTA = 0.01;
 
 
-    
+
     // Método auxiliar: crea un empleado sin repetir los 7 parámetros en cada prueba
     private EmpleadoPorHoras crear(int anios, double tarifa, int horas,
                                    int nivelArl, boolean fondo) {
@@ -35,25 +35,21 @@ class EmpleadoPorHoraTest {
             "45, 475000",    // 40*10000 + 5*10000*1.5
             "50, 550000"     // 40*10000 + 10*10000*1.5
     })
-    void salarioBruto_segunHorasLaboradas(int horas, double esperado) {
+    void validarSalarioBrutoSegunHoras(int horas, double esperado) {
         assertEquals(esperado, crear(0, 10_000, horas, 1, false).calcularSalarioBruto(), DELTA);
     }
 
     @Test
-    void salarioBruto_alCambiarLasHoras_seRecalcula() {
+    void validarSalarioBrutoAlCambiarHoras() {
         EmpleadoPorHoras e = crear(0, 10_000, 40, 1, false);
-
         e.setHorasLaboradas(45);
-
         assertEquals(475_000, e.calcularSalarioBruto(), DELTA);
     }
 
     @Test
-    void salarioBruto_alCambiarLaTarifa_seRecalcula() {
+    void validarSalarioBrutoAlCambiarTarifa() {
         EmpleadoPorHoras e = crear(0, 10_000, 40, 1, false);
-
         e.setTarifaPorHora(20_000);
-
         assertEquals(800_000, e.calcularSalarioBruto(), DELTA);
     }
 
@@ -63,24 +59,24 @@ class EmpleadoPorHoraTest {
     // Testing para validar el constructor y sus valores iniciales
 
     @Test
-    void constructor_conHorasNegativas_lanzaExcepcion() {
+    void validarHorasNegativasEnConstructor() {
         assertThrows(IllegalArgumentException.class, () -> crear(0, 10_000, -1, 1, false));
     }
 
     @Test
-    void constructor_conTarifaNegativa_lanzaExcepcion() {
+    void validarTarifaNegativaEnConstructor() {
         assertThrows(IllegalArgumentException.class, () -> crear(0, -10_000, 40, 1, false));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {-1, 0, 6, 99})
-    void constructor_conNivelArlFueraDeRango_lanzaExcepcion(int nivelInvalido) {
+    void validarNivelArlInvalidoEnConstructor(int nivelInvalido) {
         assertThrows(IllegalArgumentException.class, () -> crear(0, 10_000, 40, nivelInvalido, false));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3, 4, 5})
-    void constructor_conNivelArlValido_noLanzaExcepcion(int nivelValido) {
+    void validarNivelArlValidoEnConstructor(int nivelValido) {
         assertDoesNotThrow(() -> crear(0, 10_000, 40, nivelValido, false));
     }
 
@@ -90,29 +86,23 @@ class EmpleadoPorHoraTest {
     // Testing para validar los setters
 
     @Test
-    void setHorasLaboradas_negativas_lanzaExcepcionYConservaElValor() {
+    void validarValoresNegativosHorasLaboradas() {
         EmpleadoPorHoras e = crear(0, 10_000, 40, 1, false);
-
         assertThrows(IllegalArgumentException.class, () -> e.setHorasLaboradas(-5));
-
         assertEquals(40, e.getHorasLaboradas());
     }
 
     @Test
-    void setTarifaPorHora_negativa_lanzaExcepcionYConservaElValor() {
+    void validarValoresNegativosTarifaPorHoras() {
         EmpleadoPorHoras e = crear(0, 10_000, 40, 1, false);
-
         assertThrows(IllegalArgumentException.class, () -> e.setTarifaPorHora(-1));
-
         assertEquals(10_000, e.getTarifaPorHora(), DELTA);
     }
 
     @Test
-    void setNivelArl_fueraDeRango_lanzaExcepcionYConservaElValor() {
+    void validarNivelArlFueraDeRango() {
         EmpleadoPorHoras e = crear(0, 10_000, 40, 2, false);
-
         assertThrows(IllegalArgumentException.class, () -> e.setNivelArl(7));
-
         assertEquals(2, e.getNivelArl());
     }
 
@@ -122,28 +112,28 @@ class EmpleadoPorHoraTest {
     // Testing para validar los empleados que SI aceptan fondo de ahorro
 
     @Test
-    void fondoAhorro_masDeUnAnioYAcepta_es2PorCientoDelBruto() {
+    void validarBeneficiosConAhorro() {
         assertEquals(8_000, crear(2, 10_000, 40, 1, true).calcularBeneficios(), DELTA);
     }
 
     @Test
-    void fondoAhorro_seCalculaSobreElBrutoConHorasExtra() {
+    void validarBeneficiosConAhorroYHorasExtra() {
         // bruto 475.000 * 0.02
         assertEquals(9_500, crear(2, 10_000, 45, 1, true).calcularBeneficios(), DELTA);
     }
 
     @Test
-    void fondoAhorro_masDeUnAnioPeroNoAcepta_noHayBeneficio() {
+    void validarBeneficioSinAhorroPorNoAceptar() {
         assertEquals(0, crear(5, 10_000, 40, 1, false).calcularBeneficios(), DELTA);
     }
 
     @Test
-    void fondoAhorro_aceptaPeroNoTieneUnAnio_noHayBeneficio() {
+    void validarBeneficioSinAhorroPorAntiguedad() {
         assertEquals(0, crear(0, 10_000, 40, 1, true).calcularBeneficios(), DELTA);
     }
 
     @Test
-    void fondoAhorro_conExactamenteUnAnio_noHayBeneficio() {
+    void validarBeneficioSinAhorroConUnAnio() {
         // La regla es "más de 1 año": 1 no califica
         assertEquals(0, crear(1, 10_000, 40, 1, true).calcularBeneficios(), DELTA);
     }
@@ -156,9 +146,8 @@ class EmpleadoPorHoraTest {
 
 
     @Test
-    void deducciones_incluyenSeguroSocialPensionYArl() {
+    void validarDeduccionesSeguroPensionYArl() {
         EmpleadoPorHoras e = crear(0, 10_000, 40, 1, false);
-
         double esperado = 400_000 * 0.04    // seguro social
                 + 400_000 * 0.04    // pensión
                 + CalculadoraArl.calcularArl(1, 400_000);
@@ -167,13 +156,19 @@ class EmpleadoPorHoraTest {
     }
 
     @Test
-    void deducciones_seCalculanSobreElBrutoConHorasExtra() {
+    void validarDeduccionesConHorasExtra() {
         EmpleadoPorHoras e = crear(0, 10_000, 45, 3, false);
-
         double esperado = 475_000 * 0.08
                 + CalculadoraArl.calcularArl(3, 475_000);
 
         assertEquals(esperado, e.calcularDeducciones(), DELTA);
+    }
+
+    @Test
+    void validarDeduccionesArlNivel1ValorFijo() {
+        // Valor calculado a mano, sin usar CalculadoraArl:
+        // 400.000 * 0.08 = 32.000 + ARL (IBC mínimo 1.750.905 * 0.00522 = 9.139,72)
+        assertEquals(41_139.72, crear(0, 10_000, 40, 1, false).calcularDeducciones(), DELTA);
     }
 
 
@@ -183,9 +178,8 @@ class EmpleadoPorHoraTest {
     // Testing para validar el Salario Neto
 
     @Test
-    void salarioNeto_sinFondoDeAhorro() {
+    void validarSalarioNetoSinAhorro() {
         EmpleadoPorHoras e = crear(0, 10_000, 40, 1, false);
-
         double esperado = 400_000
                 - (400_000 * 0.08 + CalculadoraArl.calcularArl(1, 400_000));
 
@@ -193,9 +187,8 @@ class EmpleadoPorHoraTest {
     }
 
     @Test
-    void salarioNeto_conFondoDeAhorro_sumaElBeneficio() {
+    void validarSalarioNetoConAhorro() {
         EmpleadoPorHoras e = crear(2, 10_000, 40, 1, true);
-
         double esperado = 400_000 + 8_000
                 - (400_000 * 0.08 + CalculadoraArl.calcularArl(1, 400_000));
 
@@ -203,9 +196,17 @@ class EmpleadoPorHoraTest {
     }
 
     @Test
-    void salarioNeto_funcionaTambienPorPolimorfismo() {
+    void validarSalarioNetoPorPolimorfismo() {
         Empleado e = crear(0, 10_000, 40, 1, false);
-
         assertTrue(e.calcularSalarioNeto() > 0);
     }
+
+    @Test
+    void validarSalarioNetoNegativo() {
+        // Con 0 horas el bruto es 0, pero la ARL se calcula sobre el mínimo: el neto queda negativo
+        EmpleadoPorHoras e = crear(0, 10_000, 0, 1, false);
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, e::calcularSalarioNeto);
+        assertEquals("El salario neto no puede ser negativo", ex.getMessage());
+    }
+
 }
